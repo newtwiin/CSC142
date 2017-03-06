@@ -1,0 +1,441 @@
+/**
+ * This class uses the Sieve of Eratosthenes to demonstrate differences
+ * in operation time using ArrayLists, LinkedLists, Iterators, and Lists.
+ * The original implementation had each method return void and print results
+ * independently, noting any inconsistencies in the number of primes returned
+ * versus expected. This was changed to the current version, where each method
+ * returns a long which is the process time. This is to allow multiple runs and an
+ * arithmetic mean to be generated. The old implementation is commented out.
+ * The methods are static to optimize performance and since they have no external
+ * dependencies within the class.
+ *
+ * @author Evan Newton
+ * @version Assignment 9: Sieve of Eratosthenes Challenge
+ */
+public class SieveTimer {
+
+    /**
+     * This implementation uses an ArrayList and java.util.Iterator methods
+     *
+     * @param n upper bound for the prime search
+     * @return process time in ms
+     */
+    public static long SieveAListIt(int n){
+        /*
+         * expected number of primes for different values of n
+         */
+        /*
+        int expected = 0;
+        if(n == 10000) expected = 1229;
+        if(n == 20000) expected = 2262;
+        */
+        /**
+         * numberList contains all numbers between 2 and n
+         */
+        java.util.ArrayList<Integer> numberList = new java.util.ArrayList<Integer>();
+        /**
+         * primeList is where numbers are stored after they are determined to be prime
+         */
+        java.util.ArrayList<Integer> primeList = new java.util.ArrayList<Integer>();
+        /**
+         * currentPrime holds the current prime number whose multiples are being removed from the numberList
+         */
+        Integer currentPrime;
+        /**
+         * Iterator for working through the list
+         */
+        java.util.Iterator<Integer> iter;
+
+        /**
+         * M is the highest possible prime whose multiples may need to be removed (the only multiple to be removed
+         * would be n itself)
+         */
+        double M = Math.sqrt(n);
+
+        for(int i = 2; i <= n; i++) {
+            numberList.add(i);
+        }
+        currentPrime = 2;
+        /**
+         * start time for timing study
+         */
+        long start = System.nanoTime();
+        //while the current prime is less than M, remove each prime number and add it to the PrimeList
+        while(currentPrime.intValue() <= M) {
+            iter = numberList.iterator();
+            currentPrime = iter.next();
+            primeList.add(currentPrime);
+            iter.remove();
+
+            while (iter.hasNext()){
+                //remove all multiples of the last prime number from the list
+                if (iter.next().intValue() % currentPrime.intValue() == 0) {
+                    iter.remove();
+                }
+            }
+
+        }
+        //add all remaining numbers, which are prime, to the list
+        iter = numberList.iterator();
+        while (iter.hasNext()) {
+            primeList.add(iter.next());
+        }
+        /**
+         * Stop timer
+         */
+        long stop = System.nanoTime();
+        return (stop-start)/1000000;
+        /*
+        if(primeList.size() == expected){
+            System.out.println("Array List/Iterator time = " + time + " ms.");
+        } else {
+            System.out.println("Error in Algorithm. Expected: "+ expected + " Found: " + primeList.size());
+        }*/
+
+    }
+
+    /**
+     * This implementation uses a Linked List and java.util.Iterator methods
+     *
+     * @param n upper bound for the prime search
+     * @return process time in ms
+     */
+    public static long SieveLListIt(int n){
+        /*
+         * expected number of primes for different values of n
+         */
+        /*
+        int expected = 0;
+        if(n == 10000) expected = 1229;
+        if(n == 20000) expected = 2262;
+        */
+        /**
+         * numberList contains all numbers between 2 and n
+         */
+        java.util.LinkedList<Integer> numberList = new java.util.LinkedList<Integer>();
+        /**
+         * primeList is where numbers are stored after they are determined to be prime
+         */
+        java.util.LinkedList<Integer> primeList = new java.util.LinkedList<Integer>();
+        /**
+         * currentPrime holds the current prime number whose multiples are being removed from the numberList
+         */
+        Integer currentPrime;
+        /**
+         * Iterator for working through the list
+         */
+        java.util.Iterator<Integer> iter;
+
+        /**
+         * M is the highest possible prime whose multiples may need to be removed (the only multiple to be removed
+         * would be n itself)
+         */
+        double M = Math.sqrt(n);
+
+        for(int i = 2; i <= n; i++) {
+            numberList.add(i);
+        }
+        currentPrime = 2;
+        /**
+         * start time for timing study
+         */
+        long start = System.nanoTime();
+        //while the current prime is less than M, remove each prime number and add it to the PrimeList
+        while(currentPrime.intValue() <= M) {
+            iter = numberList.iterator();
+            currentPrime = iter.next();
+            primeList.add(currentPrime);
+            iter.remove();
+
+            while (iter.hasNext()){
+                //remove all multiples of the last prime number from the list
+                if (iter.next().intValue() % currentPrime.intValue() == 0) {
+                    iter.remove();
+                }
+            }
+
+        }
+        //add all remaining numbers, which are prime, to the list
+        iter = numberList.iterator();
+        while (iter.hasNext()) {
+            primeList.add(iter.next());
+        }
+        /**
+         * Stop timer
+         */
+        long stop = System.nanoTime();
+        return (stop-start)/1000000;
+        /*
+        if(primeList.size() == expected){
+            System.out.println("Linked List/Iterator time = " + time + " ms.");
+        } else {
+            System.out.println("Error in Algorithm. Expected: "+ expected + " Found: " + primeList.size());
+        }*/
+
+    }
+
+    /**
+     * This implementation uses an ArrayList and java.util.List methods
+     *
+     * @param n upper bound for the prime search
+     * @return process time in ms
+     */
+    public static long SieveAList(int n){
+        /*
+         * expected number of primes for different values of n
+         */
+        /*
+        int expected = 0;
+        if(n == 10000) expected = 1229;
+        if(n == 20000) expected = 2262;
+        */
+        /**
+         * numberList contains all numbers between 2 and n
+         */
+        java.util.ArrayList<Integer> numberList = new java.util.ArrayList<Integer>();
+        /**
+         * primeList is where numbers are stored after they are determined to be prime
+         */
+        java.util.ArrayList<Integer> primeList = new java.util.ArrayList<Integer>();
+        /**
+         * currentPrime holds the current prime number whose multiples are being removed from the numberList
+         */
+        Integer currentPrime;
+
+        /**
+         * M is the highest possible prime whose multiples may need to be removed (the only multiple to be removed
+         * would be n itself)
+         */
+        double M = Math.sqrt(n);
+
+        for(int i = 2; i <= n; i++) {
+            numberList.add(i);
+        }
+        currentPrime = 2;
+        /**
+         * start time for timing study
+         */
+        long start = System.nanoTime();
+        //while the current prime is less than M, remove each prime number and add it to the PrimeList
+        while(currentPrime.intValue() <= M) {
+             currentPrime = numberList.get(0);
+             numberList.remove(0);
+             primeList.add(currentPrime);
+             for(int x = 0; x < numberList.size(); x++) {
+                 if(numberList.get(x)%currentPrime == 0){
+                     numberList.remove(x);
+                }
+             }
+        }
+        //add all remaining numbers, which are prime, to the list
+        for(Integer x: numberList){
+            primeList.add(x);
+        }
+        /**
+         * Stop timer
+         */
+        long stop = System.nanoTime();
+        return (stop-start)/1000000;
+        /*
+        if(primeList.size() == expected){
+            System.out.println("Array List, list  time = " + time + " ms.");
+        } else {
+            System.out.println("Error in Algorithm. Expected: "+ expected + " Found: " + primeList.size());
+        }*/
+
+    }
+
+    /**
+     * This implementation uses a linked-list and java.util.List methods
+     *
+     * @param n upper bound for the prime search
+     * @return process time in ms
+     */
+    public static long SieveLList(int n){
+        /*
+         * expected number of primes for different values of n
+         */
+        /*
+        int expected = 0;
+        if(n == 10000) expected = 1229;
+        if(n == 20000) expected = 2262;
+        */
+
+        /**
+         * numberList contains all numbers between 2 and n
+         */
+        java.util.LinkedList<Integer> numberList = new java.util.LinkedList<Integer>();
+        /**
+         * primeList is where numbers are stored after they are determined to be prime
+         */
+        java.util.LinkedList<Integer> primeList = new java.util.LinkedList<Integer>();
+        /**
+         * currentPrime holds the current prime number whose multiples are being removed from the numberList
+         */
+        Integer currentPrime;
+
+        /**
+         * M is the highest possible prime whose multiples may need to be removed (the only multiple to be removed
+         * would be n itself)
+         */
+        double M = Math.sqrt(n);
+
+        for(int i = 2; i <= n; i++) {
+            numberList.add(i);
+        }
+        currentPrime = 2;
+        /**
+         * start time for timing study
+         */
+        long start = System.nanoTime();
+        //while the current prime is less than M, remove each prime number and add it to the PrimeList
+        while(currentPrime.intValue() <= M) {
+            currentPrime = numberList.get(0);
+            numberList.remove(0);
+            primeList.add(currentPrime);
+            for(int x = 0; x < numberList.size(); x++) {
+                if(numberList.get(x)%currentPrime == 0){
+                    numberList.remove(x);
+                }
+            }
+        }
+        //add all remaining numbers, which are prime, to the list
+        for(Integer x: numberList){
+            primeList.add(x);
+        }
+        /**
+         * Stop timer
+         */
+        long stop = System.nanoTime();
+
+        return (stop-start)/1000000;
+        /*
+        if(primeList.size() == expected){
+            System.out.println("Linked List, list  time = " + time + " ms.");
+        } else {
+            System.out.println("Error in Algorithm. Expected: "+ expected + " Found: " + primeList.size());
+        }*/
+    }
+    
+    public static long otherSieve(int n){
+        /**
+         * A Linked S
+         */
+      java.util.LinkedList<Integer> nums = new java.util.LinkedList<>();
+      java.util.Iterator<Integer> reader;
+      int current;
+        /**
+         * holds the values returned by a descendingIterator
+         */
+      int chopMe;
+      long start = System.nanoTime();
+      
+      for(int i = 2; i <= n; i++){
+        nums.add(i);
+      }
+      double M = Math.sqrt(n);
+      
+      do {
+        reader = nums.descendingIterator<Integer>();
+        current = (nums.get(0));
+        while(reader.hasNext()){
+          chopMe = reader.next();
+          if(chopMe % current ==0 && chop != current ){
+            reader.remove();
+          }
+        }      
+      } while(current <= M);
+      Long stop =System.nanoTime();
+      return (stop -start)/1000000;
+    }
+    
+    /**
+     * Application method which coordinates the different implementations' timing,
+     * prints the arithmetic mean for 7 runs
+     *
+     * @param args command line arguments
+     */
+    public static void main(String[] args){
+        /**
+         * test case n
+         */
+        int n = 10000;
+        /**
+         * other test case n2
+         */
+        int n2 = 20000;
+        /**
+         * total ms count for calculating mean
+         */
+        long count;
+
+        //ArrayList, list methods n
+        count = 0;
+        for(int i = 0; i < 7; i++){
+            count += SieveAList(n);
+        }
+        System.out.println("ArrayList, List methods, mean time n("+ n+ ")= " + count/7 + " ms.");
+
+        //ArrayList, list methods n2
+        count = 0;
+        for(int i = 0; i < 7; i++){
+            count += SieveAList(n2);
+        }
+        System.out.println("ArrayList, List methods, mean time n("+ n2+ ")= " + count/7 + " ms.");
+
+        //ArrayList, iterator n
+        count = 0;
+        for(int i = 0; i < 7; i++){
+            count += SieveAListIt(n);
+        }
+        System.out.println("ArrayList, iterator, mean time n("+ n+ ")= " + count/7 + " ms.");
+
+        //ArrayList, iterator n2
+        count = 0;
+        for(int i = 0; i < 7; i++){
+            count += SieveAListIt(n2);
+        }
+        System.out.println("ArrayList, iterator, mean time n("+ n2+ ")= " + count/7 + " ms.");
+
+        //LinkedList, list methods n
+        count = 0;
+        for(int i = 0; i < 7; i++){
+            count += SieveLList(n);
+        }
+        System.out.println("LinkedList, List methods, mean time n("+ n+ ")= " + count/7 + " ms.");
+
+        //LinkedList, list methods n2
+        count = 0;
+        for(int i = 0; i < 7; i++){
+            count += SieveLList(n2);
+        }
+        System.out.println("LinkedList, List methods, mean time n("+ n2+ ")= " + count/7 + " ms.");
+
+        //LinkedList, iterator n
+        count = 0;
+        for(int i = 0; i < 7; i++){
+            count += SieveLListIt(n);
+        }
+        System.out.println("LinkedList, iterator, mean time n("+ n+ ")= " + count/7 + " ms.");
+
+        //LinkedList, iterator n2
+        count = 0;
+        for(int i = 0; i < 7; i++){
+            count += SieveLListIt(n2);
+        }
+        System.out.println("LinkedList, iterator, mean time n("+ n2+ ")= " + count/7 + " ms.");
+        //other
+        count = 0;
+        for(int i = 0; i < 7; i++){
+            count += otherSieve(n);
+        }
+        System.out.println("other mean time n("+ n+ ")= " + count/7 + " ms.");
+        count = 0;
+        for(int i = 0; i < 7; i++){
+            count += otherSieve(n2);
+        }
+        System.out.println("other mean time n("+ n2+ ")= " + count/7 + " ms.");
+
+    }
+}
+
